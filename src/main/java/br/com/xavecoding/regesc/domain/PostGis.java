@@ -1,25 +1,24 @@
-package br.com.xavecoding.regesc.orm;
-import org.hibernate.annotations.Formula;
+package br.com.xavecoding.regesc.domain;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
-@Table(name = "Proximidade")
+@Getter
+@Setter
+@Table(name = "LocalVotacao")
 public class PostGis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column(nullable = false, unique = true)
-    private Integer longitdeA;
+    private Integer longitude;
     @Column(nullable = false, unique = true)
-    private Integer longitdeB;
-    @Column(nullable = false, unique = true)
-    private Integer latitudeA;
-    @Column(nullable = false, unique = true)
-    private Integer latitudeB;
-    @Column(columnDefinition = "integer GENERATED ALWAYS AS (latitudeB + latitudeA) STORED", updatable = false, insertable = false)
-    private Integer distancia;
+    private Integer latitude;
+//    @Column(columnDefinition = "integer GENERATED ALWAYS AS (latitudeB + latitudeA) STORED", updatable = false, insertable = false)
+//    private Integer distancia;
 }
 
 
