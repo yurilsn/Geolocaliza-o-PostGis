@@ -29,6 +29,9 @@ public class LocalVotacao {
     @Column(nullable = false, unique = true)
     private Double longitude;
 
+    @Column(nullable = false, unique = true)
+    private Double latitude;
+
 
     @Override
     public String toString() {
@@ -40,8 +43,7 @@ public class LocalVotacao {
                 '}';
     }
 
-    @Column(nullable = false, unique = true)
-    private Double latitude;
+
 
 //    @Column(columnDefinition = "integer GENERATED ALWAYS AS (latitudeB + latitudeA) STORED", updatable = false, insertable = false)
 //    private Integer distancia;

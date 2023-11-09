@@ -70,12 +70,25 @@ public class LocalVotacaoRest {
                 .build();
     }
 
-    @GetMapping("/distancia")
-    public ResponseEntity<?> teste(@RequestParam String cidade1, @RequestParam String cidade2){
+    @GetMapping("/cidades")
+    public ResponseEntity<?> findCidade(@RequestParam String cidade1, @RequestParam String cidade2){
         var cid1 = localVotacaoRepository.findByNome(cidade1);
         var cid2 = localVotacaoRepository.findByNome(cidade2);
 
-        return ResponseEntity.status(HttpStatus.OK).body("cidade 1 = " + cid1. + "\ncidade 2 = " + cid2.toString());
+        return ResponseEntity.status(HttpStatus.OK).body("cidade 1 - Longitude = " + cid1.getLongitude() + "\ncidade 1 - Latitude = " + cid1.getLatitude());
+    }
+
+    @GetMapping("/distancia")
+    public ResponseEntity<List<Double>> getDistance(@RequestParam String cidade1, @RequestParam String cidade2){
+        var cid1 = localVotacaoRepository.findByNome(cidade1);
+        var cid2 = localVotacaoRepository.findByNome(cidade2);
+
+        String cidlatLon1 = "'POINT(" + String.valueOf(cid1.getLatitude()) + " " + String.valueOf(cid1.getLongitude()) + ")'";
+        String cidLatLon2 = "'POINT(" + String.valueOf(cid2.getLatitude()) + " " + String.valueOf(cid2.getLongitude()) + ")'";
+
+        return ResponseEntity
+                .ok()
+                .body(localVotacaoRepository.findLocalVotacaoBydistancia(cidlatLon1, cidLatLon2));
     }
 
 
