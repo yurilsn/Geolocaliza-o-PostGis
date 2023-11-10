@@ -88,7 +88,7 @@ public class LocalVotacaoRest {
 
         return ResponseEntity
                 .ok()
-                .body(localVotacaoRepository.findLocalVotacaoBydistancia(cidlatLon1, cidLatLon2));
+                .body(localVotacaoRepository.findLocalVotacaoByDistancia(cid1.getLatitude(), cid1.getLongitude(), cid2.getLatitude(), cid2.getLongitude()));
     }
 
 
