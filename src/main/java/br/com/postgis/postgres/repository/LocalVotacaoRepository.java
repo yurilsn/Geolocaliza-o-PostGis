@@ -1,6 +1,6 @@
-package br.com.xavecoding.postgres.repository;
+package br.com.postgis.postgres.repository;
 
-import br.com.xavecoding.postgres.domain.LocalVotacao;
+import br.com.postgis.postgres.domain.LocalVotacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,6 +1,6 @@
-package br.com.xavecoding.postgres.service;
+package br.com.postgis.postgres.service;
 
-import br.com.xavecoding.postgres.repository.LocalVotacaoRepository;
+import br.com.postgis.postgres.repository.LocalVotacaoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package br.com.xavecoding.postgres;
+package br.com.postgis.postgres;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

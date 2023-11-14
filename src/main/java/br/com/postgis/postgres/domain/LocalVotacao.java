@@ -1,4 +1,4 @@
-package br.com.xavecoding.postgres.domain;
+package br.com.postgis.postgres.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

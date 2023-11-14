@@ -1,8 +1,8 @@
-package br.com.xavecoding.postgres.rest;
+package br.com.postgis.postgres.rest;
 
-import br.com.xavecoding.postgres.domain.LocalVotacao;
-import br.com.xavecoding.postgres.repository.LocalVotacaoRepository;
-import br.com.xavecoding.postgres.service.CalcDistancia;
+import br.com.postgis.postgres.domain.LocalVotacao;
+import br.com.postgis.postgres.repository.LocalVotacaoRepository;
+import br.com.postgis.postgres.service.CalcDistancia;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;

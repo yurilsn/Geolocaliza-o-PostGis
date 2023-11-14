@@ -1,4 +1,4 @@
-package br.com.xavecoding.postgres;
+package br.com.postgis.postgres;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
