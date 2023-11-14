@@ -1,15 +1,15 @@
-package br.com.xavecoding.regesc.domain;
+package br.com.xavecoding.postgres.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.type.BigDecimalType;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
-
+/**
+ * Entidade que representa um local de votação.
+ */
 @Entity
 @Getter
 @Setter
@@ -17,22 +17,37 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocalVotacao {
+
+    /**
+     * Identificador único do local de votação.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    
+
+    /**
+     * Nome do local de votação.
+     */
     @Column(nullable = false, unique = true)
     private String nome;
-    
-    
+
+    /**
+     * Longitude geográfica do local de votação.
+     */
     @Column(nullable = false, unique = true)
     private Double longitude;
 
+    /**
+     * Latitude geográfica do local de votação.
+     */
     @Column(nullable = false, unique = true)
     private Double latitude;
 
-
+    /**
+     * Sobrescrita do método toString para facilitar a exibição do objeto em formato de string.
+     *
+     * @return Uma representação em string do objeto {@code LocalVotacao}.
+     */
     @Override
     public String toString() {
         return "LocalVotacao{" +
@@ -42,34 +57,4 @@ public class LocalVotacao {
                 ", latitude=" + latitude +
                 '}';
     }
-
-
-
-//    @Column(columnDefinition = "integer GENERATED ALWAYS AS (latitudeB + latitudeA) STORED", updatable = false, insertable = false)
-//    private Integer distancia;
 }
-
-
-
-
-//import lombok.AllArgsConstructor;
-//import lombok.Data;
-//import lombok.NoArgsConstructor;
-//
-//import javax.persistence.*;
-
-//@Entity
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Table(name = "professores")
-//public class Professor {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//    @Column(nullable = false)
-//    private String nome;
-//    @Column(nullable = false, unique = true)
-//    private String prontuario;
-//}

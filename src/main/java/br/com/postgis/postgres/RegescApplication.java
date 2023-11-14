@@ -1,4 +1,4 @@
-package br.com.xavecoding.regesc;
+package br.com.xavecoding.postgres;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
