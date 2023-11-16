@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Interface que define operações de banco de dados para a entidade {@link LocalVotacao}.
@@ -18,7 +19,7 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
   * @param nome O nome do local de votação a ser pesquisado.
   * @return O local de votação encontrado ou null se não encontrado.
   */
- LocalVotacao findByNome(String nome);
+ Optional<LocalVotacao> findByNome(String nome);
 
  /**
   * Calcula a distância entre dois pontos geográficos usando a fórmula de distância esférica.

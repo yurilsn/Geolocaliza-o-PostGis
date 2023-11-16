@@ -14,18 +14,6 @@ services:
     networks:
       - postgres-net
 
-#  postgis:
-#    image: postgis/postgis:15-3.3
-#    container_name: postgis-container
-#    environment:
-#      POSTGRES_USER: usuario
-#      POSTGRES_PASSWORD: senha
-#      POSTGRES_DB: banco-espacial
-#    ports:
-#      - 5432:5432
-#    networks:
-#      - postgres-net
-
 
   pgadmin:
     image: dpage/pgadmin4
@@ -41,14 +29,3 @@ services:
 networks:
   postgres-net:
     name: postgres-net
-
-
-#version: "3.8"
-#services:
-#  oracle:
-#    image: marciokleber/oracle-ee-12c:1.0
-#    container_name: oracle
-#    volumes:
-#      - ./src/main/resources/oracle:/opt/oracle/scripts/startup
-#    ports:
-#      - 1521:1521

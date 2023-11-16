@@ -4,6 +4,7 @@ import br.com.postgis.postgres.repository.LocalVotacaoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 /**
@@ -22,16 +23,13 @@ public class CalcDistancia {
      * @param cidade2 Nome da segunda cidade.
      * @return Lista contendo a distância entre os pontos.
      */
-    public List<Double> calcDistanciaExec(String cidade1, String cidade2) {
-        var cid1 = localVotacaoRepository.findByNome(cidade1);
-        var cid2 = localVotacaoRepository.findByNome(cidade2);
+    public List<Double> exec(String cidade1, String cidade2) {
+        var cid1 = localVotacaoRepository.findByNome(cidade1).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
+        var cid2 = localVotacaoRepository.findByNome(cidade2).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
 
         // Verifica se ambos os locais foram encontrados antes de calcular a distância
-        if (cid1 != null && cid2 != null) {
-            return localVotacaoRepository.findLocalVotacaoByDistancia(cid1.getLatitude(), cid1.getLongitude(), cid2.getLatitude(), cid2.getLongitude());
-        } else {
-            // Retorna null se algum dos locais não for encontrado
-            return null;
-        }
+        return localVotacaoRepository.findLocalVotacaoByDistancia(cid1.getLatitude(), cid1.getLongitude(), cid2.getLatitude(), cid2.getLongitude());
+
     }
+
 }

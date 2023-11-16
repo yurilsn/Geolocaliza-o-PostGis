@@ -97,6 +97,6 @@ public class LocalVotacaoRest {
      */
     @GetMapping("/distancia")
     public ResponseEntity<List<Double>> getDistance(@RequestParam String cidade1, @RequestParam String cidade2) {
-        return ResponseEntity.ok().body(calcDistancia.calcDistanciaExec(cidade1, cidade2));
+        return ResponseEntity.ok().body(calcDistancia.exec(cidade1, cidade2));
     }
 }
