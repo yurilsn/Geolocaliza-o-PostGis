@@ -1,5 +1,6 @@
 package br.com.postgis.postgres.service;
 
+import br.com.postgis.postgres.domain.LocalVotacao;
 import br.com.postgis.postgres.repository.LocalVotacaoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,18 @@ public class CalcDistancia {
         // Verifica se ambos os locais foram encontrados antes de calcular a distância
         return localVotacaoRepository.findLocalVotacaoByDistancia(cid1.getLatitude(), cid1.getLongitude(), cid2.getLatitude(), cid2.getLongitude());
 
+    }
+
+    public List<LocalVotacao> proximo(String cidade, Double raio){
+        var cid = localVotacaoRepository.findByNome(cidade).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
+
+        return localVotacaoRepository.findLocalVotacaoByProximidade(cid.getLatitude(), cid.getLongitude(), raio);
+    }
+
+    public LocalVotacao spatialData(String cidade){
+        var cid = localVotacaoRepository.findByNome(cidade).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
+
+        return localVotacaoRepository.saveLocalVotacaBySpatialData(cidade, cid.getLongitude(), cid.getLatitude());
     }
 
 }

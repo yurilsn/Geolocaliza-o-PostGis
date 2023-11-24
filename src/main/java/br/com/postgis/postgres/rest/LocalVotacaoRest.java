@@ -55,7 +55,9 @@ public class LocalVotacaoRest {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<LocalVotacao> save(@RequestBody LocalVotacao localVotacao) {
+        System.out.println(localVotacao);
         return ResponseEntity.ok(localVotacaoRepository.save(localVotacao));
+//        return ResponseEntity.ok(calcDistancia.spatialData(localVotacao.getNome()));
     }
 
     /**
@@ -99,4 +101,11 @@ public class LocalVotacaoRest {
     public ResponseEntity<List<Double>> getDistance(@RequestParam String cidade1, @RequestParam String cidade2) {
         return ResponseEntity.ok().body(calcDistancia.exec(cidade1, cidade2));
     }
+
+    @GetMapping("/proximidade")
+    public ResponseEntity<List<LocalVotacao>> getProximidade(@RequestParam String cidade, @RequestParam Double raio){
+        return ResponseEntity.ok().body(calcDistancia.proximo(cidade, raio));
+    }
+
+
 }

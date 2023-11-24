@@ -1,26 +1,28 @@
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/dbgis}
-    driver-class-name: org.postgresql.Driver
-    username: usuario
-    password: 87654321
+    url: jdbc:oracle:thin:@localhost:1521:ee
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: system
+    password: oracle
     sqlScriptEncoding: UTF-8
     initialization-mode: always
+
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        spatial:
+          enabled: true
+          dialect: org.hibernate.spatial.dialect.oracle.OracleSpatial10gDialect
+          connection_finder: br.com.postgis.postgres.CustomConnectionFinderForSpatialSupport
+        dialect: org.hibernate.dialect.Oracle12cDialect
 
-#spring:
-#  datasource:
-#    url: ${SPRING_DATASOURCE_URL:jdbc:oracle:thin:@localhost:1521:ee}
-#    driver-class-name: oracle.jdbc.OracleDriver
-#    username: ${SPRING_DATASOURCE_USERNAME:regesc}
-#    password: ${SPRING_DATASOURCE_PASSWORD:regesc}
-#    sqlScriptEncoding: UTF-8
-#    initialization-mode: always
-#  jpa:
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: update
+
+
+
+
+
+
 
