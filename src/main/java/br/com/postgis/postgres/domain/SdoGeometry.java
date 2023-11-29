@@ -29,6 +29,7 @@ public class SdoGeometry {
     @Column
     private Double sdo_ordinates = null;
 
-    @OneToOne
-    private SdoPointType sdoPointType;
+
+//    @OneToOne
+//    private SdoPointType sdoPointType;
 }

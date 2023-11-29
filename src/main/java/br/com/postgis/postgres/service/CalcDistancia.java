@@ -4,6 +4,7 @@ import br.com.postgis.postgres.domain.LocalVotacao;
 import br.com.postgis.postgres.repository.LocalVotacaoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -39,10 +40,9 @@ public class CalcDistancia {
         return localVotacaoRepository.findLocalVotacaoByProximidade(cid.getLatitude(), cid.getLongitude(), raio);
     }
 
-    public LocalVotacao spatialData(String cidade){
-        var cid = localVotacaoRepository.findByNome(cidade).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
+    public LocalVotacao spatialData(LocalVotacao localVotacao){
 
-        return localVotacaoRepository.saveLocalVotacaBySpatialData(cidade, cid.getLongitude(), cid.getLatitude());
+        return localVotacaoRepository.saveLocalVotacaBySpatialData(localVotacao.getNome(), localVotacao.getLongitude(), localVotacao.getLatitude());
     }
 
 }
