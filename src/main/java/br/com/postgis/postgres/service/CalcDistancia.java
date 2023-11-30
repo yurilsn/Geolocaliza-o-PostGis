@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
+@Transactional
 public class CalcDistancia {
 
     private final LocalVotacaoRepository localVotacaoRepository;
@@ -36,13 +37,11 @@ public class CalcDistancia {
 
     public List<LocalVotacao> proximo(String cidade, Double raio){
         var cid = localVotacaoRepository.findByNome(cidade).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
-
         return localVotacaoRepository.findLocalVotacaoByProximidade(cid.getLatitude(), cid.getLongitude(), raio);
     }
 
-    public LocalVotacao spatialData(LocalVotacao localVotacao){
-
-        return localVotacaoRepository.saveLocalVotacaBySpatialData(localVotacao.getNome(), localVotacao.getLongitude(), localVotacao.getLatitude());
+    public void spatialData(LocalVotacao localVotacao){
+        localVotacaoRepository.saveLocalVotacaBySpatialData(localVotacao.getNome(), localVotacao.getLongitude(), localVotacao.getLatitude());
     }
 
 }

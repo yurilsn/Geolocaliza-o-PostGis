@@ -66,7 +66,8 @@ public class LocalVotacaoRest {
 //        System.out.println(localVotacao.getGeoloc());
 //        localVotacaoRepository.save(localVotacao);
 //        calcDistancia.spatialData(localVotacao.getNome());
-        return ResponseEntity.ok(calcDistancia.spatialData(localVotacao));
+        calcDistancia.spatialData(localVotacao);
+        return ResponseEntity.ok().build();
     }
 
     /**

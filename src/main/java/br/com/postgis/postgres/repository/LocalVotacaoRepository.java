@@ -2,6 +2,7 @@ package br.com.postgis.postgres.repository;
 
 import br.com.postgis.postgres.domain.LocalVotacao;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,24 +59,17 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
         """, nativeQuery = true)
  List<LocalVotacao> findLocalVotacaoByProximidade(@Param("cidLat") Double cidLat, @Param("cidLong") Double cidLong, @Param("raio") Double raio);
 
-// @Query(value = """
-//        INSERT INTO local_votacao (nome, latitude, longitude, geoloc)
-//        VALUES (:cidade, :cidLat, :cidLong, MDSYS.SDO_GEOMETRY(2001, 4326, MDSYS.SDO_POINT_TYPE(:cidLong, :cidLat, NULL), NULL, NULL))
-//        COMMIT;
-//        """, nativeQuery = true)
-// LocalVotacao saveLocalVotacaBySpatialData(@Param("cidade") String cidade,  @Param("cidLong") Double cidLong, @Param("cidLat") Double cidLat);
-//@Query(value = "INSERT INTO local_votacao (nome, latitude, longitude, geoloc) " +
-//        "VALUES (:cidade, :cidLat, :cidLong, MDSYS.SDO_GEOMETRY(2001, 4326, MDSYS.SDO_POINT_TYPE(:cidLong, :cidLat, NULL), NULL, NULL))",
-//        nativeQuery = true)
-//LocalVotacao saveLocalVotacaBySpatialData(@Param("cidade") String cidade,
-//                                          @Param("cidLong") Double cidLong,
-//                                          @Param("cidLat") Double cidLat);
+ @Modifying
  @Query(value = "INSERT INTO local_votacao (nome, latitude, longitude, geoloc) " +
          "VALUES (:cidade, :cidLat, :cidLong, MDSYS.SDO_GEOMETRY(2001, 4326, MDSYS.SDO_POINT_TYPE(:cidLong, :cidLat, NULL), NULL, NULL)) ",
          nativeQuery = true)
- LocalVotacao saveLocalVotacaBySpatialData(@Param("cidade") String cidade,
+ void saveLocalVotacaBySpatialData(@Param("cidade") String cidade,
                                            @Param("cidLong") Double cidLong,
                                            @Param("cidLat") Double cidLat);
-
+//@Query(value = "SELECT LocalVotacao FROM LocalVotacao ",
+//        nativeQuery = false)
+//LocalVotacao saveLocalVotacaBySpatialData(@Param("cidade") String cidade,
+//                                          @Param("cidLong") Double cidLong,
+//                                          @Param("cidLat") Double cidLat);
 }
 
