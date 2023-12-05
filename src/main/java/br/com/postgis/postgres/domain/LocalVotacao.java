@@ -1,13 +1,16 @@
 package br.com.postgis.postgres.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
 import org.hibernate.annotations.Type;
-
+import org.hibernate.spatial.dialect.oracle.SDOGeometryType;
 import org.locationtech.jts.geom.Geometry;
-import org.springframework.data.geo.Point;
-
+import org.locationtech.jts.geom.Point;
 import javax.persistence.*;
+
+import org.hibernate.spatial.JTSGeometryJavaType;
 
 
 
@@ -23,9 +26,6 @@ import javax.persistence.*;
 public class LocalVotacao {
 
 
-    public void SDOGeometryType(){
-
-    }
 
 
 
@@ -54,10 +54,11 @@ public class LocalVotacao {
     @Column(nullable = false)
     private Double latitude;
 
+//    @JsonDeserialize(using = PointDeserializer.class)
+//    @Column(columnDefinition = "MDSYS.SDO_GEOMETRY")
+//    private Geometry geoloc;
 
-    @Column(columnDefinition = "MDSYS.SDO_GEOMETRY")
-    private Point geoloc;
-
+//Tenho uma entidade no meu projeto que possui uma coluna do tipo Double com collumnDefinition = "MDSYS.SDOGEOMETRY", o problema é que quando envio um JSON
 
 
 
@@ -79,7 +80,7 @@ public class LocalVotacao {
                 ", nome='" + nome + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
-                ", geoloc=" + geoloc +
+//                ", geoloc=" + geoloc +
                 '}';
     }
 }

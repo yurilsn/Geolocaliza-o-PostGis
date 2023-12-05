@@ -1,12 +1,12 @@
 package br.com.postgis.postgres.rest;
 
+import br.com.postgis.postgres.domain.DTO.LocalVotacaoDto;
 import br.com.postgis.postgres.domain.LocalVotacao;
 import br.com.postgis.postgres.repository.LocalVotacaoRepository;
 import br.com.postgis.postgres.service.CalcDistancia;
+
 import lombok.AllArgsConstructor;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +22,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/LocalVotacao")
 @AllArgsConstructor
+@Transactional
 public class LocalVotacaoRest {
 
     private final LocalVotacaoRepository localVotacaoRepository;
@@ -35,8 +36,14 @@ public class LocalVotacaoRest {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<LocalVotacao>> findAll() {
-        return ResponseEntity.ok().body(localVotacaoRepository.findAll());
+        return ResponseEntity.ok(localVotacaoRepository.findAll());
     }
+
+//    @GetMapping("/dto")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<List<LocalVotacaoDto>> findAllDto() {
+//        return ResponseEntity.ok(localVotacaoDtoRepository.findAll());
+//    }
 
     /**
      * Retorna um local de votação pelo ID.
@@ -60,14 +67,8 @@ public class LocalVotacaoRest {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<LocalVotacao> save(@RequestBody LocalVotacao localVotacao) {
 //        System.out.println(localVotacao);
-//        Coordinate coordinate = new Coordinate(localVotacao.getLatitude(), localVotacao.getLongitude());
-//        GeometryFactory geometry = new GeometryFactory();
-//        localVotacao.setGeoloc(geometry.createPoint(coordinate));
-//        System.out.println(localVotacao.getGeoloc());
-//        localVotacaoRepository.save(localVotacao);
-//        calcDistancia.spatialData(localVotacao.getNome());
-        calcDistancia.spatialData(localVotacao);
-        return ResponseEntity.ok().build();
+//        calcDistancia.spatialData(localVotacao);
+        return ResponseEntity.ok(localVotacaoRepository.save(localVotacao));
     }
 
     /**
