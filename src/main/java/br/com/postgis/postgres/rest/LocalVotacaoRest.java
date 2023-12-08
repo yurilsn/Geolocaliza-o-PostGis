@@ -20,8 +20,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class LocalVotacaoRest {
 
-    private final LocalVotacaoRepository localVotacaoRepository;
-    private final CalcDistancia calcDistancia;
+    private LocalVotacaoRepository localVotacaoRepository;
+    private CalcDistancia calcDistancia;
 
     /**
      * Retorna todos os locais de votação.
@@ -56,8 +56,9 @@ public class LocalVotacaoRest {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<LocalVotacao> save(@RequestBody LocalVotacao localVotacao) {
         System.out.println(localVotacao);
-        return ResponseEntity.ok(localVotacaoRepository.save(localVotacao));
-//        return ResponseEntity.ok(calcDistancia.spatialData(localVotacao.getNome()));
+        calcDistancia.spatialData(localVotacao);
+        return ResponseEntity.ok().build();
+
     }
 
     /**

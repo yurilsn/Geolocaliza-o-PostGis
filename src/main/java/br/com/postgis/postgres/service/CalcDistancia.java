@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CalcDistancia {
 
-    private final LocalVotacaoRepository localVotacaoRepository;
+    private LocalVotacaoRepository localVotacaoRepository;
 
     /**
      * Calcula a distância entre dois pontos geográficos utilizando os nomes das cidades.
@@ -39,10 +39,8 @@ public class CalcDistancia {
         return localVotacaoRepository.findLocalVotacaoByProximidade(cid.getLatitude(), cid.getLongitude(), raio);
     }
 
-    public LocalVotacao spatialData(String cidade){
-        var cid = localVotacaoRepository.findByNome(cidade).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
-
-        return localVotacaoRepository.saveLocalVotacaBySpatialData(cidade, cid.getLongitude(), cid.getLatitude());
+    public void spatialData(LocalVotacao localVotacao){
+        localVotacaoRepository.saveLocalVotacaoBySpatialData(localVotacao.getNome(), localVotacao.getLatitude(), localVotacao.getLongitude());
     }
 
 }
