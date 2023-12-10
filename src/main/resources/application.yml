@@ -10,11 +10,10 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         spatial:
-          enabled: true
           dialect: org.hibernate.spatial.dialect.oracle.OracleSpatial10gDialect
           connection_finder: br.com.postgis.postgres.CustomConnectionFinderForSpatialSupport
         dialect: org.hibernate.dialect.Oracle12cDialect
