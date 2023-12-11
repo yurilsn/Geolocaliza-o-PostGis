@@ -1,18 +1,9 @@
 package br.com.postgis.postgres.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
-
-import org.hibernate.annotations.Type;
-import org.hibernate.spatial.dialect.oracle.SDOGeometryType;
-import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Point;
+
 import javax.persistence.*;
-
-import org.hibernate.spatial.JTSGeometryJavaType;
-
-
 
 /**
  * Entidade que representa um local de votação.
@@ -24,10 +15,6 @@ import org.hibernate.spatial.JTSGeometryJavaType;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocalVotacao {
-
-
-
-
 
     /**
      * Identificador único do local de votação.
@@ -54,14 +41,8 @@ public class LocalVotacao {
     @Column(nullable = false)
     private Double latitude;
 
-//    @JsonDeserialize(using = PointDeserializer.class)
-//    @Column(columnDefinition = "MDSYS.SDO_GEOMETRY")
-//    private Geometry geoloc;
-
-//Tenho uma entidade no meu projeto que possui uma coluna do tipo Double com collumnDefinition = "MDSYS.SDOGEOMETRY", o problema é que quando envio um JSON
-
-
-
+    @Column(columnDefinition = "MDSYS.SDO_GEOMETRY")
+    private Point geoloc;
 
     /**
      * Sobrescrita do método toString para facilitar a exibição do objeto em formato de string.
@@ -80,7 +61,7 @@ public class LocalVotacao {
                 ", nome='" + nome + '\'' +
                 ", longitude=" + longitude +
                 ", latitude=" + latitude +
-//                ", geoloc=" + geoloc +
+                ", geoloc=" + geoloc +
                 '}';
     }
 }

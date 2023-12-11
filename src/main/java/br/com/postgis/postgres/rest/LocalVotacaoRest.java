@@ -1,18 +1,19 @@
 package br.com.postgis.postgres.rest;
 
-import br.com.postgis.postgres.domain.DTO.LocalVotacaoDto;
 import br.com.postgis.postgres.domain.LocalVotacao;
 import br.com.postgis.postgres.repository.LocalVotacaoRepository;
 import br.com.postgis.postgres.service.CalcDistancia;
 
 import lombok.AllArgsConstructor;
 
+import org.hibernate.sql.ast.tree.expression.Collation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,15 +36,9 @@ public class LocalVotacaoRest {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<LocalVotacao>> findAll() {
-        return ResponseEntity.ok(localVotacaoRepository.findAll());
+    public ResponseEntity<Collection<LocalVotacao>> findAll() {
+        return ResponseEntity.ok(localVotacaoRepository.findGeojson());
     }
-
-//    @GetMapping("/dto")
-//    @ResponseStatus(HttpStatus.OK)
-//    public ResponseEntity<List<LocalVotacaoDto>> findAllDto() {
-//        return ResponseEntity.ok(localVotacaoDtoRepository.findAll());
-//    }
 
     /**
      * Retorna um local de votação pelo ID.
@@ -67,8 +62,8 @@ public class LocalVotacaoRest {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<LocalVotacao> save(@RequestBody LocalVotacao localVotacao) {
 //        System.out.println(localVotacao);
-//        calcDistancia.spatialData(localVotacao);
-        return ResponseEntity.ok(localVotacaoRepository.save(localVotacao));
+        calcDistancia.spatialData(localVotacao);
+        return ResponseEntity.ok().build();
     }
 
     /**

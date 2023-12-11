@@ -14,8 +14,6 @@ spring:
     properties:
       hibernate:
         spatial:
-          ogc_strict: true
-          enabled: true
           dialect: org.hibernate.spatial.dialect.oracle.OracleSpatial10gDialect
           connection_finder: br.com.postgis.postgres.CustomConnectionFinderForSpatialSupport
         dialect: org.hibernate.dialect.Oracle12cDialect

@@ -74,10 +74,8 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
                                    @Param("cidLat") Double cidLat
  );
 
- @Query(value = "SELECT id, nome, latitude, longitude, SDO_UTIL.TO_GEOJSON( " +
-                "geoloc " +
-                ") as geoloc " +
-                "FROM local_votacao",
+ @Query(value = "SELECT id, l.nome, l.latitude " +
+                "FROM local_votacao l ",
        nativeQuery = true)
  Collection<LocalVotacao> findGeojson();
 
