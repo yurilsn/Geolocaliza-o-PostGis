@@ -1,15 +1,20 @@
 package br.com.postgis.postgres.repository;
 
 import br.com.postgis.postgres.domain.LocalVotacao;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Interface que define operações de banco de dados para a entidade {@link LocalVotacao}.
  */
+
+@Transactional
 public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long> {
 
  /**
@@ -18,7 +23,7 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
   * @param nome O nome do local de votação a ser pesquisado.
   * @return O local de votação encontrado ou null se não encontrado.
   */
- LocalVotacao findByNome(String nome);
+ Optional<LocalVotacao> findByNome(String nome);
 
  /**
   * Calcula a distância entre dois pontos geográficos usando a fórmula de distância esférica.
@@ -30,11 +35,13 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
   * @return Uma lista contendo a distância entre os pontos.
   */
  @Query(value = """
-        SELECT ST_DistanceSpheroid(
-            ST_GeomFromText('POINT(' || :cidLong1 || ' ' || :cidLat1 || ')', 4326),
-            ST_GeomFromText('POINT(' || :cidLong2 || ' ' || :cidLat2 || ')', 4326),
-            'SPHEROID[\"WGS 84\",6378137,298.257223563]'
-        ) AS distancia
+        SELECT sdo_geom.sdo_distance(
+          sdo_geometry(2001, 4326, sdo_point_type(:cidLong1, :cidLat1, null), null, null),
+          sdo_geometry(2001, 4326, sdo_point_type(:cidLong2, :cidLat2, null), null, null),
+          0.0001,
+          'unit=KM'
+        ) as distance
+        from dual
         """, nativeQuery = true)
  List<Double> findLocalVotacaoByDistancia(
          @Param("cidLat1") Double cidLat1,
@@ -43,6 +50,24 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
          @Param("cidLong2") Double cidLong2
  );
 
- // Outras consultas podem ser adicionadas aqui conforme necessário.
+ @Query(value = """
+        SELECT id, geoloc, latitude, longitude, nome
+        FROM places_with_distance p
+        WHERE sdo_within_distance(
+          p.geoloc,
+          SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(:cidLat, :cidLong, NULL), NULL, NULL),
+          'distance=' || :raio || 'unit=KM'
+        ) = 'TRUE';
+        """, nativeQuery = true)
+ List<LocalVotacao> findLocalVotacaoByProximidade(@Param("cidLat") Double cidLat, @Param("cidLong") Double cidLong, @Param("raio") Double raio);
+
+ @Modifying
+ @Query(value = "INSERT INTO local_votacao (nome, latitude, longitude, geoloc) " +
+         "VALUES (:cidade, :cidLat, :cidLong, SDO_GEOMETRY(2001, 4326, MDSYS.SDO_POINT_TYPE(:cidLong, :cidLat, NULL), NULL, NULL))",
+         nativeQuery = true)
+ void saveLocalVotacaoBySpatialData(@Param("cidade") String cidade,
+                                    @Param("cidLong") Double cidLong,
+                                    @Param("cidLat") Double cidLat);
 
 }
+

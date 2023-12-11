@@ -1,6 +1,8 @@
 package br.com.postgis.postgres.service;
 
+import br.com.postgis.postgres.domain.LocalVotacao;
 import br.com.postgis.postgres.repository.LocalVotacaoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CalcDistancia {
 
-    private final LocalVotacaoRepository localVotacaoRepository;
+    private LocalVotacaoRepository localVotacaoRepository;
 
     /**
      * Calcula a distância entre dois pontos geográficos utilizando os nomes das cidades.
@@ -22,16 +24,23 @@ public class CalcDistancia {
      * @param cidade2 Nome da segunda cidade.
      * @return Lista contendo a distância entre os pontos.
      */
-    public List<Double> calcDistanciaExec(String cidade1, String cidade2) {
-        var cid1 = localVotacaoRepository.findByNome(cidade1);
-        var cid2 = localVotacaoRepository.findByNome(cidade2);
+    public List<Double> exec(String cidade1, String cidade2) {
+        var cid1 = localVotacaoRepository.findByNome(cidade1).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
+        var cid2 = localVotacaoRepository.findByNome(cidade2).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
 
         // Verifica se ambos os locais foram encontrados antes de calcular a distância
-        if (cid1 != null && cid2 != null) {
-            return localVotacaoRepository.findLocalVotacaoByDistancia(cid1.getLatitude(), cid1.getLongitude(), cid2.getLatitude(), cid2.getLongitude());
-        } else {
-            // Retorna null se algum dos locais não for encontrado
-            return null;
-        }
+        return localVotacaoRepository.findLocalVotacaoByDistancia(cid1.getLatitude(), cid1.getLongitude(), cid2.getLatitude(), cid2.getLongitude());
+
     }
+
+    public List<LocalVotacao> proximo(String cidade, Double raio){
+        var cid = localVotacaoRepository.findByNome(cidade).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
+
+        return localVotacaoRepository.findLocalVotacaoByProximidade(cid.getLatitude(), cid.getLongitude(), raio);
+    }
+
+    public void spatialData(LocalVotacao localVotacao){
+        localVotacaoRepository.saveLocalVotacaoBySpatialData(localVotacao.getNome(), localVotacao.getLatitude(), localVotacao.getLongitude());
+    }
+
 }

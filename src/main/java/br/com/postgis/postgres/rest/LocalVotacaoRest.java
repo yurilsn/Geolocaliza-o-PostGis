@@ -1,8 +1,8 @@
 package br.com.postgis.postgres.rest;
 
+import br.com.postgis.postgres.service.CalcDistancia;
 import br.com.postgis.postgres.domain.LocalVotacao;
 import br.com.postgis.postgres.repository.LocalVotacaoRepository;
-import br.com.postgis.postgres.service.CalcDistancia;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class LocalVotacaoRest {
 
-    private final LocalVotacaoRepository localVotacaoRepository;
-    private final CalcDistancia calcDistancia;
+    private LocalVotacaoRepository localVotacaoRepository;
+    private CalcDistancia calcDistancia;
 
     /**
      * Retorna todos os locais de votação.
@@ -55,7 +55,14 @@ public class LocalVotacaoRest {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<LocalVotacao> save(@RequestBody LocalVotacao localVotacao) {
-        return ResponseEntity.ok(localVotacaoRepository.save(localVotacao));
+//        Coordinate coordinate = new Coordinate(localVotacao.getLongitude(), localVotacao.getLatitude());
+//        GeometryFactory geometry = new GeometryFactory();
+//        localVotacao.setGeoloc(geometry.createPoint(coordinate));
+//        System.out.println(localVotacao);
+//        localVotacaoRepository.save(localVotacao);
+        System.out.println(localVotacao.getLatitude());
+        calcDistancia.spatialData(localVotacao);
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -97,6 +104,13 @@ public class LocalVotacaoRest {
      */
     @GetMapping("/distancia")
     public ResponseEntity<List<Double>> getDistance(@RequestParam String cidade1, @RequestParam String cidade2) {
-        return ResponseEntity.ok().body(calcDistancia.calcDistanciaExec(cidade1, cidade2));
+        return ResponseEntity.ok().body(calcDistancia.exec(cidade1, cidade2));
     }
+
+    @GetMapping("/proximidade")
+    public ResponseEntity<List<LocalVotacao>> getProximidade(@RequestParam String cidade, @RequestParam Double raio){
+        return ResponseEntity.ok().body(calcDistancia.proximo(cidade, raio));
+    }
+
+
 }

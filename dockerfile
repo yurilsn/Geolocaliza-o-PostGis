@@ -1,0 +1,7 @@
+FROM marciokleber/oracle-ee-12c:1.0
+
+ENV ORACLE_DISABLE_ASYNCH_IO=true
+ENV ORACLE_ALLOW_REMOTE=true
+
+EXPOSE 1521
+
