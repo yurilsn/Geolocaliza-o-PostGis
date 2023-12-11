@@ -1,8 +1,8 @@
 package br.com.postgis.postgres.rest;
 
+import br.com.postgis.postgres.service.CalcDistancia;
 import br.com.postgis.postgres.domain.LocalVotacao;
 import br.com.postgis.postgres.repository.LocalVotacaoRepository;
-import br.com.postgis.postgres.service.CalcDistancia;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -55,10 +55,14 @@ public class LocalVotacaoRest {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<LocalVotacao> save(@RequestBody LocalVotacao localVotacao) {
-        System.out.println(localVotacao);
+//        Coordinate coordinate = new Coordinate(localVotacao.getLongitude(), localVotacao.getLatitude());
+//        GeometryFactory geometry = new GeometryFactory();
+//        localVotacao.setGeoloc(geometry.createPoint(coordinate));
+//        System.out.println(localVotacao);
+//        localVotacaoRepository.save(localVotacao);
+        System.out.println(localVotacao.getLatitude());
         calcDistancia.spatialData(localVotacao);
         return ResponseEntity.ok().build();
-
     }
 
     /**

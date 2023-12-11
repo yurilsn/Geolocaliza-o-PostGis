@@ -1,10 +1,9 @@
 package br.com.postgis.postgres.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 import org.locationtech.jts.geom.Point;
-
-import javax.persistence.*;
-
 /**
  * Entidade que representa um local de votação.
  */
@@ -30,17 +29,18 @@ public class LocalVotacao {
     private String nome;
 
     /**
-     * Longitude geográfica do local de votação.
-     */
-    @Column(nullable = false)
-    private Double longitude;
-
-    /**
      * Latitude geográfica do local de votação.
      */
     @Column(nullable = false)
     private Double latitude;
 
+    /**
+     * Longitude geográfica do local de votação.
+     */
+    @Column(nullable = false)
+    private Double longitude;
+
+    @JsonIgnore
     @Column(columnDefinition = "MDSYS.SDO_GEOMETRY")
     private Point geoloc;
 
