@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.locationtech.jts.geom.Point;
 
-import java.util.Properties;
-
 
 /**
  * Entidade que representa um local de votação.

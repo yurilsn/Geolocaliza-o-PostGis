@@ -40,7 +40,7 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
           sdo_geometry(2001, 4326, sdo_point_type(:cidLong1, :cidLat1, null), null, null),
           sdo_geometry(2001, 4326, sdo_point_type(:cidLong2, :cidLat2, null), null, null),
           0.0001,
-          'unit=KM'
+          'unit=M'
         ) as distance
         from dual
         """, nativeQuery = true)
@@ -50,17 +50,6 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
          @Param("cidLat2") Double cidLat2,
          @Param("cidLong2") Double cidLong2
  );
-
- @Query(value =
-         "SELECT * " +
-         "FROM local_votacao l "+
-         "WHERE sdo_within_distance(" +
-         "l.geoloc, " +
-         "SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(:cidLong, :cidLat, NULL), NULL, NULL), " +
-         "'distance=1 unit=KM'" +
-         ") = 'TRUE'",
-         nativeQuery = true)
- Collection<LocalVotacao> findLocalVotacaoByRaio(@Param("cidLat") Double cidLat, @Param("cidLong") Double cidLong);
 
  @Modifying
  @Query(value = "INSERT INTO local_votacao (nome, latitude, longitude, geoloc) " +
@@ -80,6 +69,19 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
                                       @Param("cidLat") Double cidLat,
                                       @Param("cidLong") Double cidLong,
                                       @Param("id") Long id);
+
+ @Query(value =
+         "SELECT * " +
+         "FROM local_votacao l "+
+         "WHERE sdo_within_distance(" +
+         "l.geoloc, " +
+         "SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(:cidLong, :cidLat, NULL), NULL, NULL), " +
+         "'distance=' || :raio || ' unit=M'" +
+         ") = 'TRUE'",
+         nativeQuery = true)
+ Collection<LocalVotacao> findLocalVotacaoByRaio(@Param("cidLat") Double cidLat,
+                                                 @Param("cidLong") Double cidLong,
+                                                 @Param("raio") String raio);
 
 }
 

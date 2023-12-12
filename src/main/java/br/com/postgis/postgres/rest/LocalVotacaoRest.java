@@ -105,8 +105,8 @@ public class LocalVotacaoRest {
 
     @GetMapping("/proximidade")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Collection<LocalVotacao>> getProximidade(@RequestParam String cidade){
-        return ResponseEntity.ok().body(calcDistancia.proximo(cidade));
+    public ResponseEntity<Collection<LocalVotacao>> getProximidade(@RequestParam String cidade, @RequestParam String raio){
+        return ResponseEntity.ok().body(calcDistancia.proximo(cidade, raio));
     }
 
 

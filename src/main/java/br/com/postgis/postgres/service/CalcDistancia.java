@@ -34,9 +34,9 @@ public class CalcDistancia {
 
     }
 
-    public Collection<LocalVotacao> proximo(String cidade){
+    public Collection<LocalVotacao> proximo(String cidade, String raio){
         var cid = localVotacaoRepository.findByNome(cidade).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
-        return localVotacaoRepository.findLocalVotacaoByRaio(cid.getLatitude(), cid.getLongitude());
+        return localVotacaoRepository.findLocalVotacaoByRaio(cid.getLatitude(), cid.getLongitude(), raio);
     }
 
     public void spatialSave(LocalVotacao localVotacao){
