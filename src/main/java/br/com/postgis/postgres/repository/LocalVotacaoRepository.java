@@ -51,29 +51,16 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
          @Param("cidLong2") Double cidLong2
  );
 
-// @Modifying
-// @Query(value =
-//        "SELECT * " +
-//        "FROM local_votacao l " +
-//        "WHERE sdo_within_distance( " +
-//        "l.geoloc, " +
-//        "SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(:cidLat, :cidLong, NULL), NULL, NULL), " +
-//        "'distance=1 unit=KM'" +
-//        ") = 'TRUE';",
-//        nativeQuery = true)
-// void findLocalVotacaoByRaio(@Param("cidLat") Double cidLat, @Param("cidLong") Double cidLong);
-
- @Modifying
  @Query(value =
          "SELECT * " +
-         "FROM LOCAL_VOTACAO l "+
-         "WHERE sdo_within_distance( " +
+         "FROM local_votacao l "+
+         "WHERE sdo_within_distance(" +
          "l.geoloc, " +
-         "SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(:cidLat, :cidLong, NULL), NULL, NULL), " +
+         "SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(:cidLong, :cidLat, NULL), NULL, NULL), " +
          "'distance=1 unit=KM'" +
-         ") = 'TRUE';",
+         ") = 'TRUE'",
          nativeQuery = true)
- Collection<LocalVotacao> findLocalVotacaoByRaio(@Param("cidade") String cidade);
+ Collection<LocalVotacao> findLocalVotacaoByRaio(@Param("cidLat") Double cidLat, @Param("cidLong") Double cidLong);
 
  @Modifying
  @Query(value = "INSERT INTO local_votacao (nome, latitude, longitude, geoloc) " +
