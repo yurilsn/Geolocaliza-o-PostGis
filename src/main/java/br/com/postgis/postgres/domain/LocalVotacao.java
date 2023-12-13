@@ -28,7 +28,7 @@ public class LocalVotacao {
     /**
      * Nome do local de votação.
      */
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nome;
 
     /**
