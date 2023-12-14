@@ -3,10 +3,9 @@ package br.com.postgis.postgres.rest;
 import br.com.postgis.postgres.service.CalcDistancia;
 import br.com.postgis.postgres.domain.LocalVotacao;
 import br.com.postgis.postgres.repository.LocalVotacaoRepository;
+
 import lombok.AllArgsConstructor;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.springframework.beans.BeanUtils;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,8 +71,6 @@ public class LocalVotacaoRest {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<LocalVotacao> update(@RequestBody LocalVotacao updatedLocalVotacao, @PathVariable("id") Long id) {
-//        var postGis = localVotacaoRepository.findById(id).get();
-//        BeanUtils.copyProperties(updatedPostGis, postGis);
         calcDistancia.spatialUpdate(updatedLocalVotacao, id);
         return ResponseEntity.ok().build();
     }
@@ -94,19 +91,26 @@ public class LocalVotacaoRest {
     /**
      * Retorna a distância entre dois pontos geográficos.
      *
-     * @param cidade1 Nome da primeira cidade.
-     * @param cidade2 Nome da segunda cidade.
+     * @param local1 Nome do primeiro Local.
+     * @param local2 Nome do segundo Local.
      * @return ResponseEntity contendo a lista de distâncias entre os pontos.
      */
     @GetMapping("/distancia")
-    public ResponseEntity<List<Double>> getDistance(@RequestParam String cidade1, @RequestParam String cidade2) {
-        return ResponseEntity.ok().body(calcDistancia.exec(cidade1, cidade2));
+    public ResponseEntity<List<Double>> getDistance(@RequestParam String local1, @RequestParam String local2) {
+        return ResponseEntity.ok().body(calcDistancia.exec(local1, local2));
     }
 
-    @GetMapping("/proximidade")
+    /**
+     * Retorna os Locais próximos do Local escolhido dentro de um determinado raio(em metros) escolhido pelo usuáiro.
+     *
+     * @param local Nome do Local.
+     * @param raio raio (em metros).
+     * @return ResponseEntity contendo a lista de distâncias entre os pontos.
+     */
+    @GetMapping("/proximos")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Collection<LocalVotacao>> getProximidade(@RequestParam String cidade, @RequestParam String raio){
-        return ResponseEntity.ok().body(calcDistancia.proximo(cidade, raio));
+    public ResponseEntity<Collection<LocalVotacao>> getProximos(@RequestParam String local, @RequestParam String raio){
+        return ResponseEntity.ok().body(calcDistancia.proximo(local, raio));
     }
 
 

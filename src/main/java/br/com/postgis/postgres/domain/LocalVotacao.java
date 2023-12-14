@@ -43,6 +43,9 @@ public class LocalVotacao {
     @Column(nullable = false)
     private Double longitude;
 
+    /**
+     * Objeto nativo Oracle para cálculo de distancia.
+     */
     @JsonIgnore
     @Column(columnDefinition = "MDSYS.SDO_GEOMETRY")
     private Point geoloc;

@@ -19,7 +19,7 @@ public class CalcDistancia {
     private LocalVotacaoRepository localVotacaoRepository;
 
     /**
-     * Calcula a distância entre dois pontos geográficos utilizando os nomes das cidades.
+     * Service para calcular a distância entre dois pontos geográficos utilizando os nomes das cidades.
      *
      * @param cidade1 Nome da primeira cidade.
      * @param cidade2 Nome da segunda cidade.
@@ -34,14 +34,27 @@ public class CalcDistancia {
 
     }
 
-    public Collection<LocalVotacao> proximo(String cidade, String raio){
-        var cid = localVotacaoRepository.findByNome(cidade).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
+    /**
+     * Service para cálculo de locais próximos.
+     * @param local Nome do Local.
+     * @param raio raio a ser determinado
+     */
+    public Collection<LocalVotacao> proximo(String local, String raio){
+        var cid = localVotacaoRepository.findByNome(local).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
         return localVotacaoRepository.findLocalVotacaoByRaio(cid.getLatitude(), cid.getLongitude(), raio);
     }
-
+    /**
+     * Service para a persistência de dados.
+     * @param localVotacao dados a serem persistidos.
+     */
     public void spatialSave(LocalVotacao localVotacao){
         localVotacaoRepository.saveLocalVotacaoBySpatialData(localVotacao.getNome(), localVotacao.getLatitude(), localVotacao.getLongitude());
     }
+
+    /**
+     * Service para a atualização de dados.
+     * @param localVotacao dados a serem atualizados.
+     */
 
     public void spatialUpdate(LocalVotacao localVotacao, Long id){
         localVotacaoRepository.updateLocalVotacaoBySpatialData(localVotacao.getNome(), localVotacao.getLatitude(), localVotacao.getLongitude(), id);
