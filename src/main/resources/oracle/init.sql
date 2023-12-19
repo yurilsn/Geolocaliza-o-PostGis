@@ -15,3 +15,6 @@ grant create procedure to bancoespacial;
 grant create job to bancoespacial;
 grant create materialized view to bancoespacial;
 alter user bancoespacial default role connect, resource;
+alter user bancoespacial quota unlimited on bancoespacial;
+
+

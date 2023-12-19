@@ -6,6 +6,7 @@ import br.com.postgis.postgres.repository.LocalVotacaoRepository;
 
 import lombok.AllArgsConstructor;
 
+import org.apache.catalina.mapper.Mapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,6 @@ import java.util.Optional;
 @RequestMapping("/api/LocalVotacao")
 @AllArgsConstructor
 public class LocalVotacaoRest {
-
     private LocalVotacaoRepository localVotacaoRepository;
     private CalcDistancia calcDistancia;
 

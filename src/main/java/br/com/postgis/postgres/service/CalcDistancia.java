@@ -2,7 +2,7 @@ package br.com.postgis.postgres.service;
 
 import br.com.postgis.postgres.domain.LocalVotacao;
 import br.com.postgis.postgres.repository.LocalVotacaoRepository;
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -59,5 +59,8 @@ public class CalcDistancia {
     public void spatialUpdate(LocalVotacao localVotacao, Long id){
         localVotacaoRepository.updateLocalVotacaoBySpatialData(localVotacao.getNome(), localVotacao.getLatitude(), localVotacao.getLongitude(), id);
     }
+
+
+
 
 }

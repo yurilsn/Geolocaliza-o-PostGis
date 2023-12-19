@@ -1,11 +1,11 @@
 spring:
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
-    username: system
+    username: bancoespacial
+    password: bancoespacial
     initialization-mode: always
     url: jdbc:oracle:thin:@localhost:1521:ee
     sqlScriptEncoding: UTF-8
-    password: oracle
   jpa:
     properties:
       hibernate:

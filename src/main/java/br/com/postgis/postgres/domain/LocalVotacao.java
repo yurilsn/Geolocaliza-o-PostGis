@@ -1,9 +1,12 @@
 package br.com.postgis.postgres.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import javax.persistence.*;
+
+
 import lombok.*;
 import org.locationtech.jts.geom.Point;
+
+
 
 
 /**
@@ -16,7 +19,6 @@ import org.locationtech.jts.geom.Point;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocalVotacao {
-
 
     /**
      * Identificador único do local de votação.
@@ -46,7 +48,7 @@ public class LocalVotacao {
     /**
      * Objeto nativo Oracle para cálculo de distancia.
      */
-    @JsonIgnore
+
     @Column(columnDefinition = "MDSYS.SDO_GEOMETRY")
     private Point geoloc;
 

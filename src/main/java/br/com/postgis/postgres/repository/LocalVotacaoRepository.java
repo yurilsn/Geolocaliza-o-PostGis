@@ -1,7 +1,7 @@
 package br.com.postgis.postgres.repository;
 
 import br.com.postgis.postgres.domain.LocalVotacao;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -96,7 +96,7 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
          "SELECT * " +
          "FROM local_votacao l "+
          "WHERE sdo_within_distance(" +
-         "l.geoloc, " +
+         "SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(l.longitude, l.latitude, NULL), NULL, NULL), " +
          "SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(:cidLong, :cidLat, NULL), NULL, NULL), " +
          "'distance=' || :raio || ' unit=M'" +
          ") = 'TRUE'",
