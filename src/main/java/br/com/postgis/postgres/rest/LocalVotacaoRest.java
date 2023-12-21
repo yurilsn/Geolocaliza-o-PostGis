@@ -7,6 +7,7 @@ import br.com.postgis.postgres.repository.LocalVotacaoRepository;
 import lombok.AllArgsConstructor;
 
 import org.apache.catalina.mapper.Mapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,22 +58,23 @@ public class LocalVotacaoRest {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<LocalVotacao> save(@RequestBody LocalVotacao localVotacao) {
-        calcDistancia.spatialSave(localVotacao);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(localVotacaoRepository.save(localVotacao));
     }
 
     /**
      * Atualiza um local de votação pelo ID.
      *
-     * @param updatedLocalVotacao O local de votação atualizado.
      * @param id O ID do local de votação a ser atualizado.
      * @return ResponseEntity contendo o local de votação atualizado.
      */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<LocalVotacao> update(@RequestBody LocalVotacao updatedLocalVotacao, @PathVariable("id") Long id) {
-        calcDistancia.spatialUpdate(updatedLocalVotacao, id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<LocalVotacao> update(@RequestBody LocalVotacao updatedPostGis, @PathVariable("id") Long id) {
+        var postGis = localVotacaoRepository.findById(id).get();
+        BeanUtils.copyProperties(updatedPostGis, postGis);
+        return ResponseEntity
+                .ok()
+                .body(localVotacaoRepository.save(postGis));
     }
 
     /**

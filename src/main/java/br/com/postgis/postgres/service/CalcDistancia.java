@@ -43,23 +43,6 @@ public class CalcDistancia {
         var cid = localVotacaoRepository.findByNome(local).orElseThrow(() -> new EntityNotFoundException("Local votação não encontrado."));
         return localVotacaoRepository.findLocalVotacaoByRaio(cid.getLatitude(), cid.getLongitude(), raio);
     }
-    /**
-     * Service para a persistência de dados.
-     * @param localVotacao dados a serem persistidos.
-     */
-    public void spatialSave(LocalVotacao localVotacao){
-        localVotacaoRepository.saveLocalVotacaoBySpatialData(localVotacao.getNome(), localVotacao.getLatitude(), localVotacao.getLongitude());
-    }
-
-    /**
-     * Service para a atualização de dados.
-     * @param localVotacao dados a serem atualizados.
-     */
-
-    public void spatialUpdate(LocalVotacao localVotacao, Long id){
-        localVotacaoRepository.updateLocalVotacaoBySpatialData(localVotacao.getNome(), localVotacao.getLatitude(), localVotacao.getLongitude(), id);
-    }
-
 
 
 

@@ -52,40 +52,6 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
  );
 
 
-
- /**
-  * Realiza a persistência dos dados junto ao o ojeto nativo do Oracle MDSYS.SDO_GEOMETRY
-  * @param local nome do Local.
-  * @param cidLong Longitude do Local.
-  * @param cidLat Latitude do Local.
-  */
- @Modifying
- @Query(value = "INSERT INTO local_votacao (nome, latitude, longitude, geoloc) " +
-         "VALUES (:local, :cidLat, :cidLong, SDO_GEOMETRY(2001, 4326, MDSYS.SDO_POINT_TYPE(:cidLong, :cidLat, NULL), NULL, NULL))",
-         nativeQuery = true)
- void saveLocalVotacaoBySpatialData(@Param("local") String local,
-                                    @Param("cidLat") Double cidLat,
-                                    @Param("cidLong") Double cidLong);
-
-
- /**
-  * Realiza o update/PUT dos dados junto ao o ojeto nativo do Oracle MDSYS.SDO_GEOMETRY
-  * @param local Nome do Local.
-  * @param cidLong Longitude do ponto 1.
-  * @param cidLat Latitude do ponto 2.
-  * @param id Id do Local
-  */
- @Modifying
- @Query(value = "UPDATE local_votacao " +
-         "SET GEOLOC = SDO_GEOMETRY(2001, 4326, MDSYS.SDO_POINT_TYPE(:cidLong, :cidLat, NULL), NULL, NULL), LATITUDE = :cidLat, LONGITUDE = :cidLong, NOME = :local " +
-         "WHERE id = :id",
-         nativeQuery = true)
- void updateLocalVotacaoBySpatialData(@Param("local") String local,
-                                      @Param("cidLat") Double cidLat,
-                                      @Param("cidLong") Double cidLong,
-                                      @Param("id") Long id);
-
-
  /**
   * Realiza o calculo entre os pontos próximos de um determinado local, dentro de um determinado raio
   * @param cidLong Longitude do Local.
