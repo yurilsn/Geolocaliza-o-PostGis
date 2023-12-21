@@ -69,12 +69,12 @@ public class LocalVotacaoRest {
      */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<LocalVotacao> update(@RequestBody LocalVotacao updatedPostGis, @PathVariable("id") Long id) {
-        var postGis = localVotacaoRepository.findById(id).get();
-        BeanUtils.copyProperties(updatedPostGis, postGis);
+    public ResponseEntity<LocalVotacao> update(@RequestBody LocalVotacao updatedLocalVotacao, @PathVariable("id") Long id) {
+        var localVotacao = localVotacaoRepository.findById(id).get();
+        BeanUtils.copyProperties(updatedLocalVotacao, localVotacao);
         return ResponseEntity
                 .ok()
-                .body(localVotacaoRepository.save(postGis));
+                .body(localVotacaoRepository.save(localVotacao));
     }
 
     /**
