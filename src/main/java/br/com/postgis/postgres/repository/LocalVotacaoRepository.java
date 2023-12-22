@@ -61,7 +61,9 @@ public interface LocalVotacaoRepository extends JpaRepository<LocalVotacao, Long
  @Query(value =
          "SELECT * " +
          "FROM local_votacao l "+
-         "WHERE sdo_within_distance(" +
+         "WHERE l.latitude <> :cidLat " +
+         "AND l.longitude <> :cidLong " +
+         "AND sdo_within_distance( " +
          "SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(l.longitude, l.latitude, NULL), NULL, NULL), " +
          "SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(:cidLong, :cidLat, NULL), NULL, NULL), " +
          "'distance=' || :raio || ' unit=M'" +

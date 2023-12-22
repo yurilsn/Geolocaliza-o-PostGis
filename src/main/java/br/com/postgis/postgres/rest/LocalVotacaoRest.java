@@ -6,7 +6,6 @@ import br.com.postgis.postgres.repository.LocalVotacaoRepository;
 
 import lombok.AllArgsConstructor;
 
-import org.apache.catalina.mapper.Mapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
