@@ -3,12 +3,17 @@ package br.com.postgis.postgres.rest;
 import br.com.postgis.postgres.domain.LocalVotacao;
 import br.com.postgis.postgres.repository.LocalVotacaoRepository;
 import br.com.postgis.postgres.service.CalcDistancia;
+
 import lombok.AllArgsConstructor;
+
+import org.hibernate.sql.ast.tree.expression.Collation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +23,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/LocalVotacao")
 @AllArgsConstructor
+@Transactional
 public class LocalVotacaoRest {
 
     private final LocalVotacaoRepository localVotacaoRepository;
@@ -30,8 +36,8 @@ public class LocalVotacaoRest {
      */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<LocalVotacao>> findAll() {
-        return ResponseEntity.ok().body(localVotacaoRepository.findAll());
+    public ResponseEntity<Collection<LocalVotacao>> findAll() {
+        return ResponseEntity.ok(localVotacaoRepository.findGeojson());
     }
 
     /**
@@ -55,7 +61,9 @@ public class LocalVotacaoRest {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<LocalVotacao> save(@RequestBody LocalVotacao localVotacao) {
-        return ResponseEntity.ok(localVotacaoRepository.save(localVotacao));
+//        System.out.println(localVotacao);
+        calcDistancia.spatialData(localVotacao);
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -99,4 +107,11 @@ public class LocalVotacaoRest {
     public ResponseEntity<List<Double>> getDistance(@RequestParam String cidade1, @RequestParam String cidade2) {
         return ResponseEntity.ok().body(calcDistancia.exec(cidade1, cidade2));
     }
+
+    @GetMapping("/proximidade")
+    public ResponseEntity<List<LocalVotacao>> getProximidade(@RequestParam String cidade, @RequestParam Double raio){
+        return ResponseEntity.ok().body(calcDistancia.proximo(cidade, raio));
+    }
+
+
 }

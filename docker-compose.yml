@@ -1,31 +1,75 @@
-version: '3.8'
-
+version: "3.8"
 services:
   db:
-    image: postgres:15
-    container_name: postgres
+    image: oracle12:12
+    container_name: oracle
     restart: always
     environment:
-      POSTGRES_USER: usuario
-      POSTGRES_PASSWORD: 87654321
-      POSTGRES_DB: dbgis
+      - ORACLE_DISABLE_ASYNCH_IO=true
+      - ORACLE_ALLOW_REMOTE=true
+    volumes:
+      - ./src/main/resources/oracle:/opt/oracle/scripts/startup
     ports:
-      - 5432:5432
-    networks:
-      - postgres-net
+      - 1521:1521
 
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "yuriluiz557@gmail.com"
-      PGADMIN_DEFAULT_PASSWORD: 12345678
-    ports:
-      - 8081:80
-    networks:
-      - postgres-net
 
-networks:
-  postgres-net:
-    name: postgres-net
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#version: '3.8'
+#
+#services:
+#  db:
+#    image: postgres:15
+#    container_name: postgres
+#    restart: always
+#    environment:
+#      POSTGRES_USER: usuario
+#      POSTGRES_PASSWORD: 87654321
+#      POSTGRES_DB: dbgis
+#    ports:
+#      - 5432:5432
+#    networks:
+#      - postgres-net
+#
+#
+#  pgadmin:
+#    image: dpage/pgadmin4
+#    container_name: pgadmin
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: "yuriluiz557@gmail.com"
+#      PGADMIN_DEFAULT_PASSWORD: 12345678
+#    ports:
+#      - 8081:80
+#    networks:
+#      - postgres-net
+#
+#networks:
+#  postgres-net:
+#    name: postgres-net
